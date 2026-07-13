@@ -1,10 +1,12 @@
 import {getOctokit} from '@actions/github'
-import {wait} from './wait'
+import {wait} from './wait.js'
 export interface GithubClient {
-  actions: {
-    listWorkflowRuns: ReturnType<
-      typeof getOctokit
-    >['actions']['listWorkflowRuns']
+  rest: {
+    actions: {
+      listWorkflowRuns: ReturnType<
+        typeof getOctokit
+      >['rest']['actions']['listWorkflowRuns']
+    }
   }
 }
 export interface Options {
@@ -41,7 +43,7 @@ export const poll = async (options: Options): Promise<void> => {
     log(
       `Retrieving check runs for ${workflowFile} on ${owner}/${repo}@${branch}...`
     )
-    const result = await client.actions.listWorkflowRuns({
+    const result = await client.rest.actions.listWorkflowRuns({
       owner,
       repo,
       workflow_id: workflowFile,
