@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import {context, getOctokit} from '@actions/github'
-import {poll} from './poll'
+import {poll} from './poll.js'
 
 async function run(): Promise<void> {
   try {
@@ -18,7 +18,7 @@ async function run(): Promise<void> {
       intervalSeconds: parseInt(core.getInput('intervalSeconds') || '10')
     })
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error instanceof Error ? error.message : String(error))
   }
 }
 
